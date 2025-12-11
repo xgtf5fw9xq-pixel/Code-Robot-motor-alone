@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveSubsystem;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -33,6 +34,10 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     //m_exampleSubsystem.setDefaultCommand(new RunCommand( ))
+    m_driveSubsystem.setDefaultCommand(
+      new RunCommand(() -> m_driveSubsystem.runDrivetrain(MathUtil.applyDeadband(m_driverController.getLeftY(), 0.1)), 
+      m_driveSubsystem)
+      );
   }
 
   /**
@@ -45,14 +50,20 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    m_driverController.a().whileTrue(
+    m_driverController.leftBumper().whileTrue(
       new RunCommand(() ->
-      m_driveSubsystem.runMotor(0.1)));
+      m_driveSubsystem.runTurnLeft(0.2)));
+      
+    m_driverController.rightBumper().whileTrue(
+      new RunCommand(() ->
+      m_driveSubsystem.runTurnRight(0.2)));
   }
+  
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
+   
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {

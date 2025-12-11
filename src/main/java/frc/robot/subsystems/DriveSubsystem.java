@@ -57,13 +57,27 @@ public class DriveSubsystem extends SubsystemBase {
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
   }
-  public void runMotor(double speed){
+  public void runTurnLeft(double speed){
     //Speed is -1.0 to 1.0
+    motorTwo.set(-speed);
+    motorThree.set(-speed);
     motorOne.set(speed);
-    //motorTwo.set(speed);
-    //motorThree.set(speed);
-    //motorFour.set(speed);
+    motorFour.set(speed);  
   }
 
+  public void runTurnRight(double speed){
+    //Speed is -1.0 to 1.0
+    motorOne.set(-speed);
+    motorFour.set(-speed);  
+    motorTwo.set(speed);
+    motorThree.set(speed);
   }
-  
+
+  public void runDrivetrain(double speed){
+    //Speed is -1.0 to 1.0
+    motorOne.set(-speed);
+    motorTwo.set(-speed);
+
+  }
+
+}  
