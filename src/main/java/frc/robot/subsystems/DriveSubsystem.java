@@ -80,4 +80,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   }
 
+  public double getEncoderMeasurement() {
+    return motorOne.getEncoder().getPosition();
+  }
 }  

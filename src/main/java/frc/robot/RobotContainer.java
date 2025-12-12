@@ -8,7 +8,10 @@ import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.commands.PIDControlCommand;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.GroundIntake;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -23,7 +26,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   //The robot's subsystems and commands are defined here...
   private static final DriveSubsystem m_driveSubsystem = new DriveSubsystem(1, 2, 3, 4);
-
+  private static final GroundIntake m_groundIntake = new GroundIntake(5, 6, 7);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -37,6 +40,12 @@ public class RobotContainer {
     m_driveSubsystem.setDefaultCommand(
       new RunCommand(() -> m_driveSubsystem.runDrivetrain(MathUtil.applyDeadband(m_driverController.getLeftY(), 0.1)), 
       m_driveSubsystem)
+      );
+    m_groundIntake.setDefaultCommand(
+        new ParallelCommandGroup(
+          new RunCommand(() -> m_groundIntake.runPivot(0.)),
+          new RunCommand(() -> m_groundIntake.runIntake(0.))
+        )
       );
   }
 
@@ -57,6 +66,16 @@ public class RobotContainer {
     m_driverController.rightBumper().whileTrue(
       new RunCommand(() ->
       m_driveSubsystem.runTurnRight(0.2)));
+
+    m_driverController.a().whileTrue(
+      new PIDControlCommand(m_driveSubsystem, 10)
+    );
+    m_driverController.y().whileTrue(
+      new RunCommand(() -> m_groundIntake.runIntake(0.5))
+    );
+    m_driverController.x().whileTrue(
+      new RunCommand(() -> m_groundIntake.runIntake(-0.5))
+    );
   }
   
 
