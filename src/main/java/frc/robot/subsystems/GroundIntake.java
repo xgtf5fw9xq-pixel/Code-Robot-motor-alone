@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class GroundIntake extends SubsystemBase {
   SparkMax pivotMotor1;
-  SparkMax pivotMotor2;
+  // SparkMax pivotMotor2;
   SparkMax intakeMotor;
-  public GroundIntake(int pivot1, int pivot2, int intakeID) {
+  public GroundIntake(int pivot1, int intakeID) {
     this.pivotMotor1 = new SparkMax(pivot1, MotorType.kBrushless);
-    this.pivotMotor2 = new SparkMax(pivot2, MotorType.kBrushless);
+    // this.pivotMotor2 = new SparkMax(pivot2, MotorType.kBrushless);
     this.intakeMotor = new SparkMax(intakeID, MotorType.kBrushless);
   }
 
@@ -30,10 +30,10 @@ public class GroundIntake extends SubsystemBase {
 
   public void runPivot(double speed) {
     this.pivotMotor1.set(speed);
-    this.pivotMotor2.set(speed);
+    // this.pivotMotor2.set(speed);
   }
 
   public double getEncoderVal() {
-    return this.pivotMotor1.getEncoder().getPosition();
+    return 0.0;
   }
 }
