@@ -36,4 +36,5 @@ public class GroundIntake extends SubsystemBase {
   public double getEncoderVal() {
     return 0.0;
   }
+
 }

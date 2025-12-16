@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   //The robot's subsystems and commands are defined here...
   private static final DriveSubsystem m_driveSubsystem = new DriveSubsystem(1, 2, 3, 4);
-  private static final GroundIntake m_groundIntake = new GroundIntake(5, 6, 7);
+  private static final GroundIntake m_groundIntake = new GroundIntake(5, 6);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -75,6 +75,9 @@ public class RobotContainer {
     );
     m_driverController.x().whileTrue(
       new RunCommand(() -> m_groundIntake.runIntake(-0.5))
+    );
+    m_driverController.b().whileTrue(
+      new RunCommand(() -> m_groundIntake.runPivot(-0.5))
     );
   }
   
