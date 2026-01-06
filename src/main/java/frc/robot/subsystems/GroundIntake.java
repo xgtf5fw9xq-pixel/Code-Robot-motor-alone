@@ -4,15 +4,20 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class GroundIntake extends SubsystemBase {
   SparkMax pivotMotor1;
-  // SparkMax pivotMotor2;
   SparkMax intakeMotor;
+  DutyCycleEncoder encoder = new DutyCycleEncoder(5);
+
   public GroundIntake(int pivot1, int intakeID) {
     this.pivotMotor1 = new SparkMax(pivot1, MotorType.kBrushless);
     // this.pivotMotor2 = new SparkMax(pivot2, MotorType.kBrushless);
@@ -22,6 +27,7 @@ public class GroundIntake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Ground Intake Pivot Angle", getEncoderVal());
   }
 
   public void runIntake(double speed) {
@@ -29,12 +35,21 @@ public class GroundIntake extends SubsystemBase {
   }
 
   public void runPivot(double speed) {
+    if (speed > 0) {
+      if (getEncoderVal() < 5) {
+        speed = 0;
+      }
+    }
     this.pivotMotor1.set(speed);
     // this.pivotMotor2.set(speed);
   }
 
   public double getEncoderVal() {
-    return 0.0;
+    return -(encoder.get()-0.4654)*360 - 60;
   }
-
+  
+  public void intakeDefaultCommand() {
+    pivotMotor1.set(0);
+    intakeMotor.set(0.);
+  }
 }

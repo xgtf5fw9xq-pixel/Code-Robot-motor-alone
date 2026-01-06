@@ -17,11 +17,11 @@ public class DriveSubsystem extends SubsystemBase {
   SparkMax motorTwo;
   SparkMax motorThree;
   SparkMax motorFour;
-  public DriveSubsystem(int id1, int id2, int id3, int id4) {
-    motorOne = new SparkMax(id1, MotorType.kBrushless);
-    motorTwo = new SparkMax(id2, MotorType.kBrushless);
-    motorThree = new SparkMax(id3, MotorType.kBrushless);
-    motorFour = new SparkMax(id4, MotorType.kBrushless);
+  public DriveSubsystem(int motorIdFrontLeft, int motorIdFrontRight, int motorIdBackRight, int motorIdBackLeft) {
+    motorOne = new SparkMax(motorIdFrontLeft, MotorType.kBrushless);
+    motorTwo = new SparkMax(motorIdFrontRight, MotorType.kBrushless);
+    motorThree = new SparkMax(motorIdBackRight, MotorType.kBrushless);
+    motorFour = new SparkMax(motorIdBackLeft, MotorType.kBrushless);
   }
   
   /**
